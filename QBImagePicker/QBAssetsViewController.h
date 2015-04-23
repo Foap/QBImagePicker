@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QBAssetsZoomTransitionProtocol.h"
 
 @class QBImagePickerController;
 @class ALAssetsGroup;
 
-@interface QBAssetsViewController : UICollectionViewController
+@interface QBAssetsViewController : UICollectionViewController<QBAssetsZoomTransitionProtocol>
 
 @property (nonatomic, weak) QBImagePickerController *imagePickerController;
 @property (nonatomic, strong) ALAssetsGroup *assetsGroup;

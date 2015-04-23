@@ -146,6 +146,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="L0n-CL-vAy">
                             <size key="itemSize" width="77.5" height="77.5"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -173,6 +174,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="OyZ-If-PAI" secondAttribute="trailing" id="9bJ-Zm-2QQ"/>
                                     <constraint firstAttribute="bottom" secondItem="My8-lY-BNj" secondAttribute="bottom" constant="4" id="Or4-1Y-DF9"/>
@@ -207,6 +209,7 @@
                         <connections>
                             <outlet property="dataSource" destination="LdJ-Fx-WXA" id="cfc-bz-nuo"/>
                             <outlet property="delegate" destination="LdJ-Fx-WXA" id="2H4-Pd-7bs"/>
+                            <outletCollection property="gestureRecognizers" destination="CGh-9D-wUp" appends="YES" id="xa6-7R-dgV"/>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Album Title" id="gv1-d8-7Di">
@@ -218,11 +221,50 @@
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="L0P-B1-xgH" id="nJP-01-OqI"/>
+                        <segue destination="2VB-4B-55Z" kind="show" identifier="showAssetDetailSegue" id="J4h-fs-tsI"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cvd-rx-jUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="CGh-9D-wUp">
+                    <connections>
+                        <action selector="handleLongPress:" destination="LdJ-Fx-WXA" id="18x-me-Xx8"/>
+                        <outlet property="delegate" destination="LdJ-Fx-WXA" id="jpM-L5-l3a"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1460" y="662"/>
+            <point key="canvasLocation" x="1436" y="650"/>
+        </scene>
+        <!--Asset Detail View Controller-->
+        <scene sceneID="jSk-2l-Kzr">
+            <objects>
+                <viewController storyboardIdentifier="QBAssetDetailViewController" extendedLayoutIncludesOpaqueBars="YES" id="2VB-4B-55Z" customClass="QBAssetDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dl2-4J-3gZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="GNk-L4-17I"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VKA-2n-C3b">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCe-RD-hC0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="bCe-RD-hC0" secondAttribute="trailing" id="0VQ-Xq-2tC"/>
+                            <constraint firstItem="bCe-RD-hC0" firstAttribute="top" secondItem="VKA-2n-C3b" secondAttribute="top" id="CCo-ah-wf0"/>
+                            <constraint firstItem="bCe-RD-hC0" firstAttribute="leading" secondItem="VKA-2n-C3b" secondAttribute="leading" id="XuA-e1-ufD"/>
+                            <constraint firstItem="GNk-L4-17I" firstAttribute="top" secondItem="bCe-RD-hC0" secondAttribute="bottom" id="mWN-le-G5L"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="bCe-RD-hC0" id="dPd-lg-CiZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hyJ-O6-XXh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2153" y="662"/>
         </scene>
     </scenes>
 </document>

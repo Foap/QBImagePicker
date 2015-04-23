@@ -33,7 +33,7 @@
     if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 1:
-                imagePickerController.minimumNumberOfSelection = 3;
+                imagePickerController.minimumNumberOfSelection = 1;
                 break;
                 
             case 2:

@@ -15,6 +15,7 @@
 
 // ViewControllers
 #import "QBImagePickerController.h"
+#import "QBAssetDetailViewController.h"
 
 @interface QBImagePickerController (Private)
 
@@ -35,6 +36,8 @@
 @property (nonatomic, assign) BOOL disableScrollToBottom;
 @property (nonatomic, strong) NSIndexPath *indexPathForLastVisibleItem;
 @property (nonatomic, strong) NSIndexPath *lastSelectedItemIndexPath;
+
+@property (nonatomic, strong) UIView *transitionView;
 
 @end
 
@@ -552,6 +555,34 @@
     CGFloat width = (CGRectGetWidth(self.view.frame) - 2.0 * (numberOfColumns + 1)) / numberOfColumns;
     
     return CGSizeMake(width, width);
+}
+
+- (IBAction)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state != UIGestureRecognizerStateEnded) { return;  }
+
+    CGPoint p = [gestureRecognizer locationInView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
+
+    if (indexPath){
+        QBAssetCell* cell = (QBAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        self.transitionView = cell;
+        
+        QBAssetDetailViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"QBAssetDetailViewController"];
+        controller.asset = self.assets[indexPath.item];;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
+#pragma mark - QBAssetsZoomTransitionProtocol
+
+- (UIView *)viewForTransition {
+    return self.transitionView;
+}
+
+- (UIImage *)imageForTransition {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:(QBAssetCell *)self.transitionView];
+    ALAsset *asset = self.assets[indexPath.item];;
+    return [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
 }
 
 @end
