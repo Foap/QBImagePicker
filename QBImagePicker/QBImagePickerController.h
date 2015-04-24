@@ -20,6 +20,8 @@
 
 - (BOOL)qb_imagePickerController:(QBImagePickerController *)imagePickerController shouldSelectAsset:(ALAsset *)asset;
 
+- (ALAssetsLibrary *)qb_assetsLibraryForImagePickerController;
+
 @end
 
 typedef NS_ENUM(NSUInteger, QBImagePickerControllerFilterType) {
@@ -48,8 +50,6 @@ typedef NS_ENUM(NSUInteger, QBImagePickerControllerFilterType) {
 @property (nonatomic, strong, readonly) NSMutableOrderedSet *selectedAssetURLs;
 
 @property (nonatomic, assign) BOOL showsCancelButton __attribute__((deprecated));
-
-- (ALAssetsLibrary *)qb_assetsLibraryForImagePickerController;
 
 + (BOOL)isAccessible;
 

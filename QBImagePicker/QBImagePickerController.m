@@ -47,7 +47,6 @@
         self.numberOfColumnsInPortrait = 4;
         self.numberOfColumnsInLandscape = 7;
         
-        self.assetsLibrary = [ALAssetsLibrary new];
         self.selectedAssetURLs = [NSMutableOrderedSet orderedSet];
         
         // Get asset bundle
@@ -67,10 +66,6 @@
     return self;
 }
 
-- (ALAssetsLibrary *)qb_assetsLibraryForImagePickerController {
-    return self.assetsLibrary;
-}
-
 - (void)setUpAlbumsViewController
 {
     // Add QBAlbumsViewController as a child
@@ -85,6 +80,19 @@
     [navigationController didMoveToParentViewController:self];
     
     self.albumsNavigationController = navigationController;
+}
+
+#pragma mark - Private getters & setters
+
+- (ALAssetsLibrary *)assetsLibrary {
+    if (!_assetsLibrary && [self.delegate respondsToSelector:@selector(qb_assetsLibraryForImagePickerController)]) {
+        _assetsLibrary = [self.delegate qb_assetsLibraryForImagePickerController];
+    }
+    if (!_assetsLibrary) {
+        _assetsLibrary = [ALAssetsLibrary new];
+    }
+    
+    return _assetsLibrary;
 }
 
 #pragma mark - UINavigationControllerDelegate
