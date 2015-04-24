@@ -67,6 +67,10 @@
     return self;
 }
 
+- (ALAssetsLibrary *)qb_assetsLibraryForImagePickerController {
+    return self.assetsLibrary;
+}
+
 - (void)setUpAlbumsViewController
 {
     // Add QBAlbumsViewController as a child
@@ -100,6 +104,5 @@
         return nil;
     }
 }
-
 
 @end
