@@ -10,9 +10,20 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "QBAssetsZoomTransitionProtocol.h"
 
+@class QBAssetDetailViewController;
+
+@protocol QBAssetDetailViewControllerDelegate <NSObject>
+
+@optional
+- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelectAsset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath;
+
+@end
+
+
 @interface QBAssetDetailViewController : UIViewController<QBAssetsZoomTransitionProtocol>
 
 @property (strong, nonatomic) ALAsset *asset;
-
+@property (strong, nonatomic) NSIndexPath *indexPath;
+@property (nonatomic, weak) id<QBAssetDetailViewControllerDelegate> delegate;
 
 @end

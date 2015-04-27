@@ -24,7 +24,7 @@
 
 @end
 
-@interface QBAssetsViewController () <UICollectionViewDelegateFlowLayout>
+@interface QBAssetsViewController () <UICollectionViewDelegateFlowLayout, QBAssetDetailViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 
@@ -89,6 +89,8 @@
     [super viewWillDisappear:animated];
     
     self.disableScrollToBottom = YES;
+    
+    [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -96,6 +98,9 @@
     [super viewDidAppear:animated];
     
     self.disableScrollToBottom = NO;
+    
+    BOOL zerorSelectedAssets = self.imagePickerController.selectedAssetURLs.count == 0;
+    [self.navigationController setToolbarHidden:zerorSelectedAssets animated:YES];
 }
 
 - (void)dealloc
@@ -568,10 +573,21 @@
         self.transitionView = cell;
         
         QBAssetDetailViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"QBAssetDetailViewController"];
-        controller.asset = self.assets[indexPath.item];;
+        controller.asset = self.assets[indexPath.item];
+        controller.indexPath = indexPath;
+        controller.delegate = self;
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
+
+
+#pragma mark - QBAssetDetailViewControllerDelegate
+
+- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelectAsset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath {
+    // call delegate method
+    [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+}
+
 
 #pragma mark - QBAssetsZoomTransitionProtocol
 

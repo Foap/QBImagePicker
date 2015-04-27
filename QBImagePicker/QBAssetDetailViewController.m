@@ -24,6 +24,19 @@
     }
 }
 
+
+#pragma mark - Actions
+
+- (IBAction)done:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(qb_assetDetailViewController:didSelectAsset:indexPath:)]) {
+        [self.delegate qb_assetDetailViewController:self didSelectAsset:self.asset indexPath:self.indexPath];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 #pragma mark - QBAssetsZoomTransitionProtocol
 
 - (UIView *)viewForTransition {

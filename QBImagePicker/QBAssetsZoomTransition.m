@@ -18,6 +18,8 @@
 
 @property (nonatomic, assign) CGRect fromFrame;
 @property (nonatomic, assign) CGRect toFrame;
+@property (nonatomic, assign) CGSize fromImageSize;
+@property (nonatomic, assign) CGSize toImageSize;
 
 @property (nonatomic, strong) UIView *transitionView;
 @property (nonatomic, assign) id<UIViewControllerContextTransitioning> transitionContext;
@@ -26,15 +28,6 @@
 @end
 
 @implementation QBAssetsZoomTransition
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.isPresenting = YES;
-    }
-    return self;
-}
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 
@@ -45,7 +38,9 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
+    
     self.transitionContext = transitionContext;
+    self.isPresenting = (self.operation == UINavigationControllerOperationPush);
     
     self.fromViewController = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     self.toViewController = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
@@ -59,7 +54,7 @@
     
     self.toView = [self.toViewController viewForTransition];
     self.fromView = [self.fromViewController viewForTransition];
-    
+
     self.toViewController.view.frame = [self.transitionContext finalFrameForViewController:self.toViewController];
     [self.toViewController updateViewConstraints];
     
@@ -87,7 +82,6 @@
     
     self.transitionView.clipsToBounds = YES;
     self.transitionView.frame = self.fromFrame;
-    self.transitionView.contentMode = self.toView.contentMode;
     [container addSubview:self.transitionView];
     
     if (self.isPresenting) {
@@ -99,13 +93,14 @@
 
 - (void)animateZoomInTransition {
     
+    self.transitionView.contentMode = self.toView.contentMode;
     self.toViewController.view.alpha = 0;
     self.toView.hidden = YES;
     self.fromView.alpha = 0;
     
     NSTimeInterval duration = [self transitionDuration:self.transitionContext];
     
-    [UIView animateWithDuration:duration animations:^(void) {
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^(void) {
         self.toViewController.view.alpha = 1;
         self.transitionView.frame = self.toFrame;
     } completion:^(BOOL finished) {
@@ -116,25 +111,25 @@
         
         if ([self.transitionContext transitionWasCancelled]) {
             [self.toViewController.view removeFromSuperview];
-            self.isPresenting = YES;
+            self.isPresenting = NO;
             [self.transitionContext completeTransition:NO];
         } else {
-            self.isPresenting = NO;
+            self.isPresenting = YES;
             [self.transitionContext completeTransition:YES];
         }
     }];
 }
 
 - (void)animateZoomOutTransition {
-    
-    self.transitionView.contentMode = self.toView.contentMode;
+
+    self.transitionView.contentMode = self.fromView.contentMode;
     self.toViewController.view.alpha = 1;
     self.toView.hidden = YES;
     self.fromView.alpha = 0;
     
     NSTimeInterval duration = [self transitionDuration:self.transitionContext];
     
-    [UIView animateWithDuration:duration animations:^(void) {
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^(void) {
         self.fromViewController.view.alpha = 0;
         self.transitionView.frame = self.toFrame;
     } completion:^(BOOL finished) {
@@ -158,169 +153,6 @@
         }
         
     }];
-}
-
-- (void)animateTransition2:(id<UIViewControllerContextTransitioning>)transitionContext
-{
-    UIView *containerView           = [transitionContext containerView];
-    containerView.backgroundColor   = [UIColor whiteColor];
-    
-    if (self.operation == UINavigationControllerOperationPush)
-    {
-        UIViewController<QBAssetsZoomTransitionProtocol> *fromVC      = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        UIViewController<QBAssetsZoomTransitionProtocol> *toVC    = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-        
-        NSAssert([fromVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)], @"FromViewController must conform to QBAssetsZoomTransitionProtocol");
-        NSAssert([toVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)], @"ToViewController must conform to QBAssetsZoomTransitionProtocol");
-        
-        if (![fromVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)] || ![toVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)]) {
-            return;
-        }
-
-        UIView *cellView        = [fromVC viewForTransition];
-        UIImageView *imageView  = (UIImageView *)[toVC viewForTransition];
-        UIView *snapshot        = [self resizedSnapshot:imageView];
-        
-        CGPoint cellCenter  = [fromVC.view convertPoint:cellView.center fromView:cellView.superview];
-        CGPoint snapCenter  = toVC.view.center;
-        
-        // Find the scales of snapshot
-        float startScale    = MAX(cellView.frame.size.width / snapshot.frame.size.width,
-                                  cellView.frame.size.height / snapshot.frame.size.height);
-        
-        float endScale      = MIN(toVC.view.frame.size.width / snapshot.frame.size.width,
-                                  toVC.view.frame.size.height / snapshot.frame.size.height);
-        
-        // Find the bounds of the snapshot mask
-        float width         = snapshot.bounds.size.width;
-        float height        = snapshot.bounds.size.height;
-        float length        = MIN(width, height);
-        
-        CGRect startBounds  = CGRectMake((width-length)/2, (height-length)/2, length, length);
-        
-        // Create the mask
-        UIView *mask            = [[UIView alloc] initWithFrame:startBounds];
-        mask.backgroundColor    = [UIColor whiteColor];
-        
-        // Prepare transition
-        snapshot.transform  = CGAffineTransformMakeScale(startScale, startScale);;
-        snapshot.layer.mask = mask.layer;
-        snapshot.center     = cellCenter;
-        
-        toVC.view.frame     = [transitionContext finalFrameForViewController:toVC];
-        toVC.view.alpha     = 0;
-        
-        // Add to container view
-        [containerView addSubview:toVC.view];
-        [containerView addSubview:snapshot];
-        
-        // Animate
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                              delay:0
-             usingSpringWithDamping:0.75
-              initialSpringVelocity:0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             fromVC.view.alpha          = 0;
-                             snapshot.transform         = CGAffineTransformMakeScale(endScale, endScale);
-                             snapshot.layer.mask.bounds = snapshot.bounds;
-                             snapshot.center            = snapCenter;
-                             toVC.navigationController.toolbar.alpha = 0;
-                         }
-                         completion:^(BOOL finished){
-                             toVC.view.alpha   = 1;
-                             toVC.navigationController.toolbarHidden = YES;
-                             [snapshot removeFromSuperview];
-                             [transitionContext completeTransition:YES];
-                         }];
-    }
-    
-    else
-    {
-        UIViewController<QBAssetsZoomTransitionProtocol> *fromVC      = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        UIViewController<QBAssetsZoomTransitionProtocol> *toVC    = (UIViewController <QBAssetsZoomTransitionProtocol>*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-
-        NSAssert([fromVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)], @"FromViewController must conform to QBAssetsZoomTransitionProtocol");
-        NSAssert([toVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)], @"ToViewController must conform to QBAssetsZoomTransitionProtocol");
-        
-        if (![fromVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)] || ![toVC conformsToProtocol:@protocol(QBAssetsZoomTransitionProtocol)]) {
-            return;
-        }
-
-        UIView *cellView        = [toVC viewForTransition];
-        UIImageView *imageView  = (UIImageView *)[fromVC viewForTransition];
-        UIView *snapshot        = [self resizedSnapshot:imageView];
-        
-        CGPoint cellCenter  = [toVC.view convertPoint:cellView.center fromView:cellView.superview];
-        CGPoint snapCenter  = fromVC.view.center;
-        
-        // Find the scales of snapshot
-        float startScale    = MIN(fromVC.view.frame.size.width / snapshot.frame.size.width,
-                                  fromVC.view.frame.size.height / snapshot.frame.size.height);
-        
-        float endScale      = MAX(cellView.frame.size.width / snapshot.frame.size.width,
-                                  cellView.frame.size.height / snapshot.frame.size.height);
-        
-        // Find the bounds of the snapshot mask
-        float width         = snapshot.bounds.size.width;
-        float height        = snapshot.bounds.size.height;
-        float length        = MIN(width, height);
-        CGRect endBounds    = CGRectMake((width-length)/2, (height-length)/2, length, length);
-        
-        UIView *mask            = [[UIView alloc] initWithFrame:snapshot.bounds];
-        mask.backgroundColor    = [UIColor whiteColor];
-        
-        // Prepare transition
-        snapshot.transform      = CGAffineTransformMakeScale(startScale, startScale);
-        snapshot.layer.mask     = mask.layer;
-        snapshot.center         = snapCenter;
-        
-        toVC.view.frame         = [transitionContext finalFrameForViewController:toVC];
-        toVC.view.alpha         = 0;
-        fromVC.view.alpha       = 0;
-        
-        // Add to container view
-        [containerView addSubview:toVC.view];
-        [containerView addSubview:snapshot];
-        
-        // Animate
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                              delay:0
-             usingSpringWithDamping:1
-              initialSpringVelocity:0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             toVC.view.alpha            = 1;
-                             snapshot.transform         = CGAffineTransformMakeScale(endScale, endScale);
-                             snapshot.layer.mask.bounds = endBounds;
-                             snapshot.center            = cellCenter;
-                         }
-                         completion:^(BOOL finished){
-                             [snapshot removeFromSuperview];
-                             [transitionContext completeTransition:YES];
-                         }];
-    }
-}
-
-
-
-#pragma mark - Snapshot
-
-- (UIView *)resizedSnapshot:(UIImageView *)imageView
-{
-    CGSize size = imageView.frame.size;
-    
-    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
-    
-    [[UIColor whiteColor] set];
-    UIRectFill(CGRectMake(0, 0, size.width, size.height));
-    
-    [imageView.image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *resized = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return (UIView *)[[UIImageView alloc] initWithImage:resized];
 }
 
 @end

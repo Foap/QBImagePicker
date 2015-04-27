@@ -105,15 +105,7 @@
                                 <action selector="cancel:" destination="zDO-wM-OC0" id="9hi-Vy-Xfp"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="5fb-BM-hBU">
-                            <connections>
-                                <action selector="done:" destination="zDO-wM-OC0" id="fJp-MD-5xJ"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="doneButton" destination="5fb-BM-hBU" id="jz5-Hp-Pg2"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HJV-2T-pJo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -213,7 +205,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Album Title" id="gv1-d8-7Di">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="L0P-B1-xgH">
+                        <barButtonItem key="rightBarButtonItem" id="L0P-B1-xgH">
                             <connections>
                                 <action selector="done:" destination="LdJ-Fx-WXA" id="wV2-cm-OcD"/>
                             </connections>
@@ -258,6 +250,13 @@
                             <constraint firstItem="GNk-L4-17I" firstAttribute="top" secondItem="bCe-RD-hC0" secondAttribute="bottom" id="mWN-le-G5L"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Pcc-iL-mCh">
+                        <barButtonItem key="rightBarButtonItem" title="Select" id="44K-kz-9ds">
+                            <connections>
+                                <action selector="done:" destination="2VB-4B-55Z" id="1Tt-Jv-EGI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="bCe-RD-hC0" id="dPd-lg-CiZ"/>
                     </connections>
