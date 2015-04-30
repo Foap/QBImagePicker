@@ -563,20 +563,20 @@
 }
 
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
-    if (gestureRecognizer.state != UIGestureRecognizerStateEnded) { return;  }
-
-    CGPoint p = [gestureRecognizer locationInView:self.collectionView];
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
-
-    if (indexPath){
-        QBAssetCell* cell = (QBAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-        self.transitionView = cell;
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint p = [gestureRecognizer locationInView:self.collectionView];
+        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
         
-        QBAssetDetailViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"QBAssetDetailViewController"];
-        controller.asset = self.assets[indexPath.item];
-        controller.indexPath = indexPath;
-        controller.delegate = self;
-        [self.navigationController pushViewController:controller animated:YES];
+        if (indexPath){
+            QBAssetCell* cell = (QBAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+            self.transitionView = cell;
+            
+            QBAssetDetailViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"QBAssetDetailViewController"];
+            controller.asset = self.assets[indexPath.item];
+            controller.indexPath = indexPath;
+            controller.delegate = self;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
     }
 }
 
