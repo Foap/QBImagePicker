@@ -11,6 +11,7 @@
 @interface QBAssetDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *selectButton;
 
 @end
 
@@ -22,15 +23,18 @@
     if (self.asset) {
         self.imageView.image = [UIImage imageWithCGImage:[self.asset defaultRepresentation].fullScreenImage];
     }
+    
+    self.selectButton.title = self.isSelected ? NSLocalizedString(@"Deselect", nil) : NSLocalizedString(@"Select", nil);
 }
-
 
 #pragma mark - Actions
 
 - (IBAction)selectClicked:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(qb_assetDetailViewController:didSelectAsset:indexPath:)]) {
-        [self.delegate qb_assetDetailViewController:self didSelectAsset:self.asset indexPath:self.indexPath];
+    self.selected = !self.isSelected;
+    
+    if ([self.delegate respondsToSelector:@selector(qb_assetDetailViewController:didSelect:asset:indexPath:)]) {
+        [self.delegate qb_assetDetailViewController:self didSelect: self.selected asset:self.asset indexPath:self.indexPath];
     }
     
     [self.navigationController popViewControllerAnimated:YES];

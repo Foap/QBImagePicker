@@ -575,6 +575,7 @@
             controller.asset = self.assets[indexPath.item];
             controller.indexPath = indexPath;
             controller.delegate = self;
+            controller.selected = cell.isSelected;
             [self.navigationController pushViewController:controller animated:YES];
         }
     }
@@ -583,10 +584,15 @@
 
 #pragma mark - QBAssetDetailViewControllerDelegate
 
-- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelectAsset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath {
+- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelect:(BOOL)select asset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath {
     // call delegate method
-    [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+    if (select) {
+        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+    } else {
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        [self collectionView:self.collectionView didDeselectItemAtIndexPath:indexPath];
+    }
 }
 
 

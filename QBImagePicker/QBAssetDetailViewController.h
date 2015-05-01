@@ -15,7 +15,7 @@
 @protocol QBAssetDetailViewControllerDelegate <NSObject>
 
 @optional
-- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelectAsset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath;
+- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelect:(BOOL)select asset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -24,6 +24,8 @@
 
 @property (strong, nonatomic) ALAsset *asset;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property(nonatomic,getter=isSelected) BOOL selected;  
+
 @property (nonatomic, weak) id<QBAssetDetailViewControllerDelegate> delegate;
 
 @end

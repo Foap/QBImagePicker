@@ -259,6 +259,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="bCe-RD-hC0" id="dPd-lg-CiZ"/>
+                        <outlet property="selectButton" destination="44K-kz-9ds" id="ttm-F6-gmK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyJ-O6-XXh" userLabel="First Responder" sceneMemberID="firstResponder"/>
