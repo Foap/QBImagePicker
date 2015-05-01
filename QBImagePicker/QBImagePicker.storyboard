@@ -205,7 +205,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Album Title" id="gv1-d8-7Di">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="L0P-B1-xgH">
+                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="L0P-B1-xgH">
                             <connections>
                                 <action selector="done:" destination="LdJ-Fx-WXA" id="wV2-cm-OcD"/>
                             </connections>
@@ -253,7 +253,7 @@
                     <navigationItem key="navigationItem" id="Pcc-iL-mCh">
                         <barButtonItem key="rightBarButtonItem" title="Select" id="44K-kz-9ds">
                             <connections>
-                                <action selector="done:" destination="2VB-4B-55Z" id="1Tt-Jv-EGI"/>
+                                <action selector="selectClicked:" destination="2VB-4B-55Z" id="xsS-mk-s10"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

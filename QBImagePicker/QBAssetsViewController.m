@@ -585,6 +585,7 @@
 
 - (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelectAsset:(ALAsset *)asset indexPath:(NSIndexPath *)indexPath {
     // call delegate method
+    [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
 }
 

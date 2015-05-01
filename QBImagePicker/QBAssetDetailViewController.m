@@ -27,7 +27,7 @@
 
 #pragma mark - Actions
 
-- (IBAction)done:(id)sender
+- (IBAction)selectClicked:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(qb_assetDetailViewController:didSelectAsset:indexPath:)]) {
         [self.delegate qb_assetDetailViewController:self didSelectAsset:self.asset indexPath:self.indexPath];
