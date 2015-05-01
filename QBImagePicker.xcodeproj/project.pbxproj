@@ -84,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		497DF3701AF38EF700EDE48D /* QBImagePickerController.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = QBImagePickerController.podspec; sourceTree = "<group>"; };
 		49A84CE71AE7C4DD001D88AE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		49AAB8CA1AE9149000B412A8 /* QBAssetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetDetailViewController.h; sourceTree = "<group>"; };
 		49AAB8CB1AE9149000B412A8 /* QBAssetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetDetailViewController.m; sourceTree = "<group>"; };
@@ -221,6 +222,7 @@
 		AACD2EE41AD12DB10029BE0B = {
 			isa = PBXGroup;
 			children = (
+				497DF3701AF38EF700EDE48D /* QBImagePickerController.podspec */,
 				AACD2EF01AD12DB10029BE0B /* QBImagePicker */,
 				AACD2EFD1AD12DB10029BE0B /* QBImagePickerTests */,
 				AACD2F371AD12E010029BE0B /* QBImagePickerDemo */,
