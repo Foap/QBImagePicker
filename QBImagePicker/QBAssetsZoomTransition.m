@@ -18,8 +18,7 @@
 
 @property (nonatomic, assign) CGRect fromFrame;
 @property (nonatomic, assign) CGRect toFrame;
-@property (nonatomic, assign) CGSize fromImageSize;
-@property (nonatomic, assign) CGSize toImageSize;
+@property (nonatomic, assign) CGSize originalImageSize;
 
 @property (nonatomic, strong) UIView *transitionView;
 @property (nonatomic, assign) id<UIViewControllerContextTransitioning> transitionContext;
@@ -74,8 +73,10 @@
     // Create a copy of the fromView and add it to the Transition Container
     if ([self.fromView isKindOfClass:[UIImageView class]]) {
         self.transitionView = [[UIImageView alloc] initWithImage:((UIImageView *)self.fromView).image];
+        self.originalImageSize = ((UIImageView *)self.fromView).image.size;
     } else if ([self.fromViewController respondsToSelector:@selector(imageForTransition)]) {
         self.transitionView = [[UIImageView alloc] initWithImage:[self.fromViewController imageForTransition]];
+        self.originalImageSize = [self.fromViewController imageForTransition].size;
     } else {
         self.transitionView = [self.fromView snapshotViewAfterScreenUpdates:NO];
     }
@@ -122,22 +123,41 @@
 
 - (void)animateZoomOutTransition {
 
+    float startScale    = MIN(self.fromView.frame.size.width / self.originalImageSize.width,
+                              self.fromView.frame.size.height / self.originalImageSize.height);
+    
+    float endScale      = MAX(self.toView.frame.size.width / self.originalImageSize.width,
+                              self.toView.frame.size.height / self.originalImageSize.height);
+
+    CGPoint originalCenter = CGPointMake(CGRectGetMidX(self.fromViewController.view.frame), CGRectGetMidY(self.fromViewController.view.frame));
+    CGPoint center = CGPointMake(CGRectGetMidX(self.toFrame), CGRectGetMidY(self.toFrame));
+
+    self.transitionView.frame = CGRectMake(0, 0, self.originalImageSize.width, self.originalImageSize.height);
+    self.transitionView.center = originalCenter;
     self.transitionView.contentMode = self.fromView.contentMode;
+    CGFloat side = MIN(self.transitionView.frame.size.width, self.transitionView.frame.size.height);
+    CGRect endMask = CGRectMake((self.transitionView.frame.size.width / 2) - (side / 2), (self.transitionView.frame.size.height / 2) - (side / 2), side, side);
+
+    UIView *mask            = [[UIView alloc] initWithFrame:endMask];
+    mask.backgroundColor    = [UIColor whiteColor];
+    self.transitionView.layer.mask = mask.layer;
+    self.transitionView.transform      = CGAffineTransformMakeScale(startScale, startScale);
+
+
     self.toViewController.view.alpha = 1;
     self.toView.hidden = YES;
     self.fromView.alpha = 0;
-    
     NSTimeInterval duration = [self transitionDuration:self.transitionContext];
     
     [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^(void) {
         self.fromViewController.view.alpha = 0;
-        self.transitionView.frame = self.toFrame;
+        self.transitionView.transform      = CGAffineTransformMakeScale(endScale, endScale);
+        self.transitionView.center = center;
     } completion:^(BOOL finished) {
         
         if (self.transitionView.superview == nil) {
             return;
         }
-        
         self.fromViewController.view.alpha = 1;
         self.toView.hidden = NO;
         self.fromView.alpha = 1;

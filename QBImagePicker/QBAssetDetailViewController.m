@@ -47,4 +47,8 @@
     return self.imageView;
 }
 
+- (UIImage *)imageForTransition {
+    return self.imageView.image;
+}
+
 @end
