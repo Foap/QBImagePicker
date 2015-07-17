@@ -13,6 +13,7 @@
 #import "QBImagePickerController.h"
 #import "QBAssetCell.h"
 #import "QBVideoIndicatorView.h"
+#import "QBAssetDetailViewController.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
@@ -55,7 +56,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 @end
 
-@interface QBAssetsViewController () <PHPhotoLibraryChangeObserver, UICollectionViewDelegateFlowLayout>
+@interface QBAssetsViewController () <PHPhotoLibraryChangeObserver, UICollectionViewDelegateFlowLayout, QBAssetDetailViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 
@@ -66,6 +67,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 @property (nonatomic, assign) BOOL disableScrollToBottom;
 @property (nonatomic, strong) NSIndexPath *lastSelectedItemIndexPath;
+@property (nonatomic, strong) UIView *transitionView;
+@property (nonatomic, strong) UIImage *transitionImage;
 
 @end
 
@@ -124,6 +127,9 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     self.disableScrollToBottom = NO;
     
     [self updateCachedAssets];
+    
+    BOOL noSelectedAssets = self.imagePickerController.selectedAssets.count == 0;
+    [self.navigationController setToolbarHidden:noSelectedAssets animated:YES];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -656,6 +662,70 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     CGFloat width = (CGRectGetWidth(self.view.frame) - 2.0 * (numberOfColumns - 1)) / numberOfColumns;
     
     return CGSizeMake(width, width);
+}
+
+
+#pragma mark - GestureRecognizers
+
+- (IBAction)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint p = [gestureRecognizer locationInView:self.collectionView];
+        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
+        
+        if (indexPath) {
+            
+            // Zoom transition
+            QBAssetCell* cell = (QBAssetCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+            self.transitionView = cell;
+
+            // Image
+            PHAsset *asset = self.fetchResult[indexPath.item];
+            __weak typeof(self) weakSelf = self;
+            [self.imageManager requestImageForAsset:asset
+                                         targetSize:weakSelf.view.frame.size
+                                        contentMode:PHImageContentModeAspectFill
+                                            options:nil
+                                      resultHandler:^(UIImage *image, NSDictionary *info) {
+                                          BOOL isDegraded = [info[PHImageResultIsDegradedKey] boolValue];
+                                          if (isDegraded == NO) {
+                                              weakSelf.transitionImage = image;
+                                              
+                                              QBAssetDetailViewController *controller = [weakSelf.storyboard instantiateViewControllerWithIdentifier:@"QBAssetDetailViewController"];
+                                              controller.asset = asset;
+                                              controller.image = image;
+                                              controller.indexPath = indexPath;
+                                              controller.delegate = weakSelf;
+                                              controller.selected = cell.isSelected;
+                                              [weakSelf.navigationController pushViewController:controller animated:YES];
+                                          }
+                                      }];
+        }
+    }
+}
+
+
+#pragma mark - QBAssetDetailViewControllerDelegate
+
+- (void)qb_assetDetailViewController:(QBAssetDetailViewController *)assetDetailViewController didSelect:(BOOL)select asset:(PHAsset *)asset indexPath:(NSIndexPath *)indexPath {
+    // call delegate method
+    if (select) {
+        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+    } else {
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        [self collectionView:self.collectionView didDeselectItemAtIndexPath:indexPath];
+    }
+}
+
+
+#pragma mark - QBAssetsZoomTransitionProtocol
+
+- (UIView *)viewForTransition {
+    return self.transitionView;
+}
+
+- (UIImage *)imageForTransition {
+    return self.transitionImage;
 }
 
 @end

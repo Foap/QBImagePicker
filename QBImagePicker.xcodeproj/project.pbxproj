@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49697BCB1B57B18D00CF8F8E /* QBAssetDetailViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 49697BC91B57B18D00CF8F8E /* QBAssetDetailViewController.h */; };
+		49697BCC1B57B18D00CF8F8E /* QBAssetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49697BCA1B57B18D00CF8F8E /* QBAssetDetailViewController.m */; };
+		49697BD01B57B1F100CF8F8E /* QBAssetsZoomTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = 49697BCD1B57B1F100CF8F8E /* QBAssetsZoomTransition.h */; };
+		49697BD11B57B1F100CF8F8E /* QBAssetsZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 49697BCE1B57B1F100CF8F8E /* QBAssetsZoomTransition.m */; };
+		49697BD21B57B1F100CF8F8E /* QBAssetsZoomTransitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 49697BCF1B57B1F100CF8F8E /* QBAssetsZoomTransitionProtocol.h */; };
 		790A850F1AE7D4D9008E2A80 /* QBSlomoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 790A850D1AE7D4D9008E2A80 /* QBSlomoIconView.h */; };
 		790A85101AE7D4D9008E2A80 /* QBSlomoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790A850E1AE7D4D9008E2A80 /* QBSlomoIconView.m */; };
 		AA3AD06F1ACF9A3A00BF523E /* QBVideoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3AD06D1ACF9A3A00BF523E /* QBVideoIconView.h */; };
@@ -81,6 +86,12 @@
 
 /* Begin PBXFileReference section */
 		07A50A481B331A840010E048 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
+		49697BC91B57B18D00CF8F8E /* QBAssetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetDetailViewController.h; sourceTree = "<group>"; };
+		49697BCA1B57B18D00CF8F8E /* QBAssetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetDetailViewController.m; sourceTree = "<group>"; };
+		49697BCD1B57B1F100CF8F8E /* QBAssetsZoomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsZoomTransition.h; sourceTree = "<group>"; };
+		49697BCE1B57B1F100CF8F8E /* QBAssetsZoomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsZoomTransition.m; sourceTree = "<group>"; };
+		49697BCF1B57B1F100CF8F8E /* QBAssetsZoomTransitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsZoomTransitionProtocol.h; sourceTree = "<group>"; };
+		74BB93661B2CE91A0044EB60 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		790A850D1AE7D4D9008E2A80 /* QBSlomoIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBSlomoIconView.h; sourceTree = "<group>"; };
 		790A850E1AE7D4D9008E2A80 /* QBSlomoIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBSlomoIconView.m; sourceTree = "<group>"; };
 		AA3AD06D1ACF9A3A00BF523E /* QBVideoIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBVideoIconView.h; sourceTree = "<group>"; };
@@ -122,7 +133,6 @@
 		AAF1CA3E1ACE8918005F6295 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		AAF1CA401ACE8A8B005F6295 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		E521B0A11B01D6810079461F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/QBImagePicker.strings"; sourceTree = "<group>"; };
-		74BB93661B2CE91A0044EB60 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +197,11 @@
 				AAA8FE5A1ACDA554002A9710 /* QBAlbumsViewController.m */,
 				AAF1CA2D1ACE6E46005F6295 /* QBAssetsViewController.h */,
 				AAF1CA2E1ACE6E46005F6295 /* QBAssetsViewController.m */,
+				49697BC91B57B18D00CF8F8E /* QBAssetDetailViewController.h */,
+				49697BCA1B57B18D00CF8F8E /* QBAssetDetailViewController.m */,
+				49697BCD1B57B1F100CF8F8E /* QBAssetsZoomTransition.h */,
+				49697BCE1B57B1F100CF8F8E /* QBAssetsZoomTransition.m */,
+				49697BCF1B57B1F100CF8F8E /* QBAssetsZoomTransitionProtocol.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -315,6 +330,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49697BD21B57B1F100CF8F8E /* QBAssetsZoomTransitionProtocol.h in Headers */,
+				49697BCB1B57B18D00CF8F8E /* QBAssetDetailViewController.h in Headers */,
 				790A850F1AE7D4D9008E2A80 /* QBSlomoIconView.h in Headers */,
 				AA3AD0731ACFA06700BF523E /* QBVideoIndicatorView.h in Headers */,
 				AAF1CA331ACE6FB5005F6295 /* QBAssetCell.h in Headers */,
@@ -322,6 +339,7 @@
 				AAF1CA1A1ACE5467005F6295 /* QBAlbumCell.h in Headers */,
 				AAA8FE5B1ACDA554002A9710 /* QBAlbumsViewController.h in Headers */,
 				AA3AD06F1ACF9A3A00BF523E /* QBVideoIconView.h in Headers */,
+				49697BD01B57B1F100CF8F8E /* QBAssetsZoomTransition.h in Headers */,
 				AAA8FE091ACDA079002A9710 /* QBImagePicker.h in Headers */,
 				AABBF0901ACEDDFF003188A3 /* QBCheckmarkView.h in Headers */,
 				AAA8FE211ACDA090002A9710 /* QBImagePickerController.h in Headers */,
@@ -415,12 +433,14 @@
 				TargetAttributes = {
 					AAA8FE021ACDA079002A9710 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 2PRW676NCQ;
 					};
 					AAA8FE0D1ACDA079002A9710 = {
 						CreatedOnToolsVersion = 6.2;
 					};
 					AAA8FE261ACDA0CE002A9710 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 2PRW676NCQ;
 					};
 					AAA8FE3E1ACDA0CE002A9710 = {
 						CreatedOnToolsVersion = 6.2;
@@ -497,12 +517,14 @@
 				AAF1CA341ACE6FB5005F6295 /* QBAssetCell.m in Sources */,
 				AA3AD0701ACF9A3A00BF523E /* QBVideoIconView.m in Sources */,
 				790A85101AE7D4D9008E2A80 /* QBSlomoIconView.m in Sources */,
+				49697BCC1B57B18D00CF8F8E /* QBAssetDetailViewController.m in Sources */,
 				AABBF0911ACEDDFF003188A3 /* QBCheckmarkView.m in Sources */,
 				AAF1CA301ACE6E46005F6295 /* QBAssetsViewController.m in Sources */,
 				AAF1CA1B1ACE5467005F6295 /* QBAlbumCell.m in Sources */,
 				AAA8FE221ACDA090002A9710 /* QBImagePickerController.m in Sources */,
 				AA3AD0741ACFA06700BF523E /* QBVideoIndicatorView.m in Sources */,
 				AAA8FE5C1ACDA554002A9710 /* QBAlbumsViewController.m in Sources */,
+				49697BD11B57B1F100CF8F8E /* QBAssetsZoomTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +598,7 @@
 				AAF1CA401ACE8A8B005F6295 /* ja */,
 				E521B0A11B01D6810079461F /* zh-Hans */,
 				07A50A481B331A840010E048 /* es */,
-				74BB93661B2CE91A0044EB60 /* de */
+				74BB93661B2CE91A0044EB60 /* de */,
 			);
 			name = QBImagePicker.strings;
 			sourceTree = "<group>";
@@ -673,6 +695,7 @@
 		AAA8FE1A1ACDA079002A9710 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -688,6 +711,7 @@
 		AAA8FE1B1ACDA079002A9710 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -703,6 +727,7 @@
 		AAA8FE1D1ACDA079002A9710 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -720,6 +745,7 @@
 		AAA8FE1E1ACDA079002A9710 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -734,6 +760,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -748,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = QBImagePickerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -757,7 +785,7 @@
 		AAA8FE4B1ACDA0CE002A9710 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -777,7 +805,7 @@
 		AAA8FE4C1ACDA0CE002A9710 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

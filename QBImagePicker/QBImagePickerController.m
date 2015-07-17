@@ -11,8 +11,10 @@
 
 // ViewControllers
 #import "QBAlbumsViewController.h"
+#import "QBAssetsZoomTransition.h"
+#import "QBAssetDetailViewController.h"
 
-@interface QBImagePickerController ()
+@interface QBImagePickerController ()<UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UINavigationController *albumsNavigationController;
 
@@ -64,6 +66,7 @@
     // Add QBAlbumsViewController as a child
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"QBImagePicker" bundle:self.assetBundle];
     UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"QBAlbumsNavigationController"];
+    navigationController.delegate = self;
     
     [self addChildViewController:navigationController];
     
@@ -73,6 +76,24 @@
     [navigationController didMoveToParentViewController:self];
     
     self.albumsNavigationController = navigationController;
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
+{
+    if ((operation == UINavigationControllerOperationPush && [toVC isKindOfClass:[QBAssetDetailViewController class]]) ||
+        (operation == UINavigationControllerOperationPop && [fromVC isKindOfClass:[QBAssetDetailViewController class]]))
+    {
+        QBAssetsZoomTransition *transition = [[QBAssetsZoomTransition alloc] init];
+        transition.operation = operation;
+        
+        return transition;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 @end
