@@ -297,7 +297,13 @@
                             <constraint firstItem="tee-Wf-IkB" firstAttribute="leading" secondItem="72a-Qj-RN5" secondAttribute="leading" id="Efc-XY-kIK"/>
                             <constraint firstItem="tee-Wf-IkB" firstAttribute="top" secondItem="72a-Qj-RN5" secondAttribute="top" id="QHU-az-P8O"/>
                             <constraint firstAttribute="trailing" secondItem="tee-Wf-IkB" secondAttribute="trailing" id="lXR-ie-PG1"/>
+                            <constraint firstItem="tee-Wf-IkB" firstAttribute="bottom" secondItem="72a-Qj-RN5" secondAttribute="bottomMargin" id="sxW-1g-VpO"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1TY-8Z-x0X"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="dzR-yI-HSy">
                         <barButtonItem key="rightBarButtonItem" title="Select" id="0ts-FM-VMY">
