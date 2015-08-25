@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) UINavigationController *albumsNavigationController;
 
-@property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
 @property (nonatomic, strong) NSBundle *assetBundle;
 
 @end
@@ -42,7 +41,7 @@
         self.numberOfColumnsInPortrait = 4;
         self.numberOfColumnsInLandscape = 7;
         
-        self.selectedAssets = [NSMutableOrderedSet orderedSet];
+        _selectedAssets = [NSMutableOrderedSet orderedSet];
         
         // Get asset bundle
         self.assetBundle = [NSBundle bundleForClass:[self class]];
