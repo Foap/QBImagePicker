@@ -104,7 +104,9 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     [self updateDoneButtonState];
     [self updateSelectionInfo];
-    [self.collectionView reloadData];
+
+#warning @TODO This line is uncommented because it destroy zoom transfere.
+//    [self.collectionView reloadData];
     
     // Scroll to bottom
     if (self.fetchResult.count > 0 && self.isMovingToParentViewController && !self.disableScrollToBottom) {
