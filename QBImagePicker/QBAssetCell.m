@@ -17,12 +17,6 @@
 
 @implementation QBAssetCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    self.selectionView.image = [UIImage imageNamed:@"selectedImage"];
-}
-
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
