@@ -151,8 +151,6 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 - (void)updateAssetCollections
 {
-    NSMutableArray *assetCollections = [NSMutableArray array];
-    
     // Filter albums
     NSArray *assetCollectionSubtypes = self.imagePickerController.assetCollectionSubtypes;
     NSMutableDictionary *smartAlbums = [NSMutableDictionary dictionaryWithCapacity:assetCollectionSubtypes.count];
@@ -160,20 +158,27 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     for (PHFetchResult *fetchResult in self.fetchResults) {
         [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger index, BOOL *stop) {
-            if (assetCollection.assetCollectionSubtype == PHAssetCollectionSubtypeAlbumRegular) {
+            PHAssetCollectionSubtype subtype = assetCollection.assetCollectionSubtype;
+            
+            if (subtype == PHAssetCollectionSubtypeAlbumRegular) {
                 [userAlbums addObject:assetCollection];
-            } else if ([assetCollectionSubtypes containsObject:@(assetCollection.assetCollectionSubtype)]) {
-                smartAlbums[@(assetCollection.assetCollectionSubtype)] = assetCollection;
+            } else if ([assetCollectionSubtypes containsObject:@(subtype)]) {
+                if (!smartAlbums[@(subtype)]) {
+                    smartAlbums[@(subtype)] = [NSMutableArray array];
+                }
+                [smartAlbums[@(subtype)] addObject:assetCollection];
             }
         }];
     }
     
+    NSMutableArray *assetCollections = [NSMutableArray array];
+
     // Fetch smart albums
     for (NSNumber *assetCollectionSubtype in assetCollectionSubtypes) {
-        PHAssetCollection *assetCollection = smartAlbums[assetCollectionSubtype];
+        NSArray *collections = smartAlbums[assetCollectionSubtype];
         
-        if (assetCollection) {
-            [assetCollections addObject:assetCollection];
+        if (collections) {
+            [assetCollections addObjectsFromArray:collections];
         }
     }
     
@@ -271,7 +276,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 {
     QBAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumCell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
-    cell.borderWidth = 1.0 / self.traitCollection.displayScale;
+    cell.borderWidth = 1.0 / [[UIScreen mainScreen] scale];
     
     // Thumbnail
     PHAssetCollection *assetCollection = self.assetCollections[indexPath.row];
@@ -298,7 +303,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         cell.imageView3.hidden = NO;
         
         [imageManager requestImageForAsset:fetchResult[fetchResult.count - 3]
-                                targetSize:CGSizeScale(cell.imageView3.frame.size, self.traitCollection.displayScale)
+                                targetSize:CGSizeScale(cell.imageView3.frame.size, [[UIScreen mainScreen] scale])
                                contentMode:PHImageContentModeAspectFill
                                    options:nil
                              resultHandler:^(UIImage *result, NSDictionary *info) {
@@ -314,7 +319,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         cell.imageView2.hidden = NO;
         
         [imageManager requestImageForAsset:fetchResult[fetchResult.count - 2]
-                                targetSize:CGSizeScale(cell.imageView2.frame.size, self.traitCollection.displayScale)
+                                targetSize:CGSizeScale(cell.imageView2.frame.size, [[UIScreen mainScreen] scale])
                                contentMode:PHImageContentModeAspectFill
                                    options:nil
                              resultHandler:^(UIImage *result, NSDictionary *info) {
@@ -328,7 +333,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     if (fetchResult.count >= 1) {
         [imageManager requestImageForAsset:fetchResult[fetchResult.count - 1]
-                                targetSize:CGSizeScale(cell.imageView1.frame.size, self.traitCollection.displayScale)
+                                targetSize:CGSizeScale(cell.imageView1.frame.size, [[UIScreen mainScreen] scale])
                                contentMode:PHImageContentModeAspectFill
                                    options:nil
                              resultHandler:^(UIImage *result, NSDictionary *info) {
