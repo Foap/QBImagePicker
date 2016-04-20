@@ -8,7 +8,7 @@
 
 #import "QBAlbumsViewController.h"
 #import <Photos/Photos.h>
-
+#import "QBMacros.h"
 // Views
 #import "QBAlbumCell.h"
 
@@ -17,7 +17,11 @@
 #import "QBAssetsViewController.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
-    return CGSizeMake(size.width * scale, size.height * scale);
+    if IS_IPAD() {
+        return CGSizeMake(501, 501);
+    } else {
+        return CGSizeMake(size.width * scale, size.height * scale);
+    }
 }
 
 @interface QBImagePickerController (Private)
@@ -146,6 +150,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     }
 }
 
+#define IS_IPAD() (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #pragma mark - Fetching Asset Collections
 
@@ -332,6 +337,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     }
     
     if (fetchResult.count >= 1) {
+        
         [imageManager requestImageForAsset:fetchResult[fetchResult.count - 1]
                                 targetSize:CGSizeScale(cell.imageView1.frame.size, [[UIScreen mainScreen] scale])
                                contentMode:PHImageContentModeAspectFill

@@ -14,6 +14,7 @@
 #import "QBAssetCell.h"
 #import "QBVideoIndicatorView.h"
 #import "QBAssetDetailViewController.h"
+#import "QBMacros.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
@@ -466,6 +467,10 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     CGSize itemSize = [(UICollectionViewFlowLayout *)collectionView.collectionViewLayout itemSize];
     CGSize targetSize = CGSizeScale(itemSize, [[UIScreen mainScreen] scale]);
     
+    if IS_IPAD() {
+        targetSize = CGSizeMake(501, 501);
+    }
+
     [self.imageManager requestImageForAsset:asset
                                  targetSize:targetSize
                                 contentMode:PHImageContentModeAspectFill
@@ -691,8 +696,14 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
             // Image
             PHAsset *asset = self.fetchResult[indexPath.item];
             __weak typeof(self) weakSelf = self;
+            
+            CGSize targetSize = weakSelf.view.frame.size;
+            if IS_IPAD() {
+                targetSize = CGSizeMake(501, 501);
+            }
+
             [self.imageManager requestImageForAsset:asset
-                                         targetSize:weakSelf.view.frame.size
+                                         targetSize:targetSize
                                         contentMode:PHImageContentModeAspectFill
                                             options:nil
                                       resultHandler:^(UIImage *image, NSDictionary *info) {
