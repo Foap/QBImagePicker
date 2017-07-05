@@ -397,40 +397,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         if (collectionChanges) {
             // Get the new fetch result
             self.fetchResult = [collectionChanges fetchResultAfterChanges];
-            
-            NSIndexSet *removedIndexes = [collectionChanges removedIndexes];
-            NSIndexSet *insertedIndexes = [collectionChanges insertedIndexes];
-            NSIndexSet *changedIndexes = [collectionChanges changedIndexes];
-            
-            // In some rare cases removedIndexes & changedIndexes contains the same indexes. The result is NSInternalInconsistencyException. Sollution is to reload collectionView data.
-            __block BOOL incrementalDiffsAreCorrupt = NO;
-            [removedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                if ([changedIndexes containsIndex:idx]) {
-                    incrementalDiffsAreCorrupt = YES;
-                }
-            }];
-            
-            if (![collectionChanges hasIncrementalChanges] || [collectionChanges hasMoves] || incrementalDiffsAreCorrupt ) {
-                // We need to reload all if the incremental diffs are not available
-                [self.collectionView reloadData];
-            } else {
-                // If we have incremental diffs, tell the collection view to animate insertions and deletions
-                [self.collectionView performBatchUpdates:^{
-                    if ([removedIndexes count]) {
-                        [self.collectionView deleteItemsAtIndexPaths:[removedIndexes qb_indexPathsFromIndexesWithSection:0]];
-                    }
-                    
-                    if ([insertedIndexes count]) {
-                        [self.collectionView insertItemsAtIndexPaths:[insertedIndexes qb_indexPathsFromIndexesWithSection:0]];
-                    }
-                    
-                    if ([changedIndexes count]) {
-                        NSMutableIndexSet *changedWithoutRemovalsIndexes = [changedIndexes mutableCopy];
-                        [changedWithoutRemovalsIndexes removeIndexes:removedIndexes];
-                        [self.collectionView reloadItemsAtIndexPaths:[changedWithoutRemovalsIndexes qb_indexPathsFromIndexesWithSection:0]];
-                    }
-                } completion:NULL];
-            }
+            [self.collectionView reloadData];
             
             [self resetCachedAssets];
         }
