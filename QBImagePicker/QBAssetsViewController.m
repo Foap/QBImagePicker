@@ -436,10 +436,6 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     CGSize itemSize = [(UICollectionViewFlowLayout *)collectionView.collectionViewLayout itemSize];
     CGSize targetSize = CGSizeScale(itemSize, [[UIScreen mainScreen] scale]);
     
-    if IS_IPAD() {
-        targetSize = CGSizeMake(501, 501);
-    }
-
     [self.imageManager requestImageForAsset:asset
                                  targetSize:targetSize
                                 contentMode:PHImageContentModeAspectFill
@@ -667,9 +663,6 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
             __weak typeof(self) weakSelf = self;
             
             CGSize targetSize = weakSelf.view.frame.size;
-            if IS_IPAD() {
-                targetSize = CGSizeMake(501, 501);
-            }
 
             [self.imageManager requestImageForAsset:asset
                                          targetSize:targetSize

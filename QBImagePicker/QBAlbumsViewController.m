@@ -17,11 +17,7 @@
 #import "QBAssetsViewController.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
-    if IS_IPAD() {
-        return CGSizeMake(501, 501);
-    } else {
-        return CGSizeMake(size.width * scale, size.height * scale);
-    }
+    return CGSizeMake(size.width * scale, size.height * scale);
 }
 
 @interface QBImagePickerController (Private)
@@ -149,8 +145,6 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         [(UIBarButtonItem *)self.toolbarItems[1] setTitle:@""];
     }
 }
-
-#define IS_IPAD() (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #pragma mark - Fetching Asset Collections
 
